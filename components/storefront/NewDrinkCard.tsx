@@ -29,7 +29,7 @@ export function NewDrinkCard({
           Nuevo
         </span>
         <span className="brand-ink absolute bottom-2.5 right-2.5 rounded-full px-2.5 py-1 font-display text-sm font-semibold text-white">
-          ${dollars}
+          Bs {dollars}
           <sup className="text-[10px]">{cents}</sup>
         </span>
       </div>

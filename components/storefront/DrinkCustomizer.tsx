@@ -119,7 +119,7 @@ export function DrinkCustomizer({
                 {drink.name}
               </h2>
               <p className="font-display text-2xl font-bold text-ink">
-                ${dollars}
+                Bs {dollars}
                 <sup className="text-sm">{cents}</sup>
               </p>
             </div>
