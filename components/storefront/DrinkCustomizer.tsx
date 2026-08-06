@@ -70,7 +70,7 @@ export function DrinkCustomizer({
 
   return (
     <div className="brand-shell fixed inset-0 z-50 mx-auto flex w-full max-w-md flex-col overflow-hidden sm:my-6 sm:h-[calc(100vh-3rem)] sm:rounded-[2rem]">
-      <div className="brand-hero rounded-b-[2rem]">
+      <div className="brand-hero rounded-b-[2rem] bg-[#ff7800]">
         <Header storeName={storeName} storeLocation={storeLocation} compact />
       </div>
 
