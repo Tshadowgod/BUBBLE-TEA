@@ -36,12 +36,28 @@ function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-100 px-4">
+    <div className="store-atmosphere flex min-h-screen items-center justify-center px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-sm"
+        className="brand-shell w-full max-w-sm rounded-[2rem] p-8"
       >
-        <h1 className="mb-1 text-xl font-extrabold text-brand-700">Mundo Bubble Tea Admin</h1>
+        <div className="mb-5 flex flex-col items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo-mascot.png"
+            alt=""
+            className="mb-2 h-16 w-auto object-contain"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/wordmark.png"
+            alt="Mundo Bubble Tea"
+            className="h-10 w-auto object-contain"
+          />
+        </div>
+        <h1 className="mb-1 font-display text-xl font-semibold text-ink">
+          Admin
+        </h1>
         <p className="mb-6 text-sm text-neutral-500">Sign in to manage the menu and orders.</p>
 
         <label className="mb-4 block text-sm">
@@ -75,7 +91,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full rounded-full bg-brand-600 py-3 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
+          className="w-full rounded-full bg-accent-500 py-3 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-accent-600 disabled:opacity-60"
         >
           {submitting ? "Signing in…" : "Sign in"}
         </button>

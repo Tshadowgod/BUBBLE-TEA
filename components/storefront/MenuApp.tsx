@@ -38,46 +38,59 @@ function MenuAppInner({
   }, [drinks]);
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-md flex-col overflow-hidden border border-white/60 bg-white/50 pb-10 shadow-xl shadow-brand-900/10 backdrop-blur-2xl sm:my-6 sm:min-h-0 sm:rounded-3xl">
+    <div className="brand-shell mx-auto flex min-h-screen w-full max-w-md flex-col overflow-hidden pb-14 sm:my-6 sm:min-h-0 sm:rounded-[2rem]">
       <div
-        className={`rounded-b-[2rem] border-b border-white/20 bg-gradient-to-br from-brand-400/90 to-brand-900/90 shadow-lg shadow-brand-900/20 backdrop-blur-xl ${newDrinks.length > 0 ? "pb-14" : "pb-4"}`}
+        className={`brand-hero ${
+          newDrinks.length > 0 ? "rounded-b-[2rem] pb-5" : "rounded-b-[2rem]"
+        }`}
       >
         <Header storeName={storeName} storeLocation={storeLocation} />
+
         {newDrinks.length > 0 && (
-          <h2 className="px-5 text-xs font-bold uppercase tracking-wide text-white/80">
-            New Drinks
-          </h2>
-        )}
-      </div>
-
-      {newDrinks.length > 0 && (
-        <section className="-mt-10 mb-6">
-          <div className="no-scrollbar flex gap-3 overflow-x-auto px-5 pb-1">
-            {newDrinks.map((drink) => (
-              <NewDrinkCard key={drink.id} drink={drink} onSelect={setSelectedDrink} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {drinks.length === 0 ? (
-        <p className="px-5 text-sm text-neutral-500">
-          No drinks on the menu yet — check back soon.
-        </p>
-      ) : (
-        categories.map(({ category, items }) => (
-          <section key={category} className="mb-6 px-5">
-            <h2 className="mb-3 text-xs font-bold uppercase tracking-wide text-neutral-400">
-              {category}
-            </h2>
-            <div className="space-y-2.5">
-              {items.map((drink) => (
-                <DrinkListRow key={drink.id} drink={drink} onSelect={setSelectedDrink} />
+          <section className="relative z-10 pt-1">
+            <div className="mb-3 flex items-end justify-between px-5">
+              <h2 className="font-display text-base font-semibold tracking-wide text-ink">
+                Novedades
+              </h2>
+              <span className="brand-ink rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+                Recién salidas
+              </span>
+            </div>
+            <div className="no-scrollbar flex gap-3.5 overflow-x-auto px-5 pb-1">
+              {newDrinks.map((drink) => (
+                <NewDrinkCard
+                  key={drink.id}
+                  drink={drink}
+                  onSelect={setSelectedDrink}
+                />
               ))}
             </div>
           </section>
-        ))
-      )}
+        )}
+      </div>
+
+      <div className="flex-1 bg-milk px-1">
+        {drinks.length === 0 ? (
+          <p className="px-5 py-10 text-center text-sm text-neutral-600">
+            Aún no hay bebidas en el menú — vuelve pronto.
+          </p>
+        ) : (
+          categories.map(({ category, items }) => (
+            <section key={category} className="px-4 pt-7">
+              <h2 className="mb-3 px-1 font-display text-lg font-semibold text-ink">
+                {category}
+              </h2>
+              <ul className="space-y-2.5">
+                {items.map((drink) => (
+                  <li key={drink.id}>
+                    <DrinkListRow drink={drink} onSelect={setSelectedDrink} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        )}
+      </div>
 
       {selectedDrink && (
         <DrinkCustomizer

@@ -4,49 +4,38 @@ import { useCart } from "@/context/CartContext";
 
 export function Header({
   storeName,
-  storeLocation,
+  compact = false,
 }: {
   storeName: string;
-  storeLocation: string;
+  storeLocation?: string;
+  compact?: boolean;
 }) {
   const { count, openCart } = useCart();
 
   return (
-    <header className="flex items-center justify-between px-5 pt-6 pb-5">
-      <div className="flex items-center gap-2.5">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/brand/logo-256.png"
-          alt=""
-          className="h-9 w-9 shrink-0 rounded-full bg-white/15 object-contain p-1"
-        />
-        <div>
-          <h1 className="text-lg font-extrabold leading-tight tracking-tight text-white">
-            {storeName}
-          </h1>
-          <p className="text-xs text-white/70">{storeLocation}</p>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <div className="text-center text-xs font-semibold leading-tight text-white">
-          <p className="text-base font-bold">20</p>
-          <p className="text-[10px] text-white/70">mins</p>
-        </div>
-
+    <header
+      className={`relative text-ink ${
+        compact ? "px-5 pb-5 pt-5" : "px-5 pb-7 pt-5"
+      }`}
+    >
+      <div className="absolute right-5 top-5 z-20 flex items-center gap-2">
+        {!compact && (
+          <div className="brand-chip rounded-full px-3 py-1.5 text-center">
+            <p className="font-display text-sm font-semibold leading-none text-ink">
+              ~20
+            </p>
+            <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-ink/60">
+              min
+            </p>
+          </div>
+        )}
         <button
           type="button"
           onClick={openCart}
-          aria-label="Open cart"
-          className="relative flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/70 text-brand-700 shadow-sm backdrop-blur-md"
+          aria-label="Abrir carrito"
+          className="brand-ink relative flex h-11 w-11 items-center justify-center rounded-full text-white transition hover:opacity-90 active:scale-95"
         >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M6 8h12l-1 12H7L6 8Z"
               stroke="currentColor"
@@ -61,11 +50,43 @@ export function Header({
             />
           </svg>
           {count > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent-500 px-1 text-[10px] font-bold text-white ring-2 ring-brand-500">
+            <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 font-display text-[11px] font-bold text-ink shadow ring-2 ring-accent-500">
               {count}
             </span>
           )}
         </button>
+      </div>
+
+      <div
+        className={`animate-rise relative mx-auto flex flex-col items-center text-center ${
+          compact ? "pt-1" : "pt-2"
+        }`}
+      >
+        <h1 className="sr-only">{storeName}</h1>
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/logo-mascot.png"
+          alt=""
+          className={`mx-auto w-auto object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.18)] ${
+            compact ? "h-16" : "h-24 sm:h-28"
+          }`}
+        />
+
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/wordmark.png"
+          alt={storeName}
+          className={`mx-auto mt-2 w-auto object-contain ${
+            compact ? "h-12 max-w-[14rem]" : "h-16 max-w-[18rem] sm:h-[4.5rem] sm:max-w-[20rem]"
+          }`}
+        />
+
+        {!compact && (
+          <p className="animate-rise-delay-1 mt-3 max-w-[20rem] px-2 text-[13px] font-bold leading-snug text-ink/85">
+            Refrescante bubble tea, dará una explosión de sabores a tu paladar
+          </p>
+        )}
       </div>
     </header>
   );

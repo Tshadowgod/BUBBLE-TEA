@@ -23,7 +23,9 @@ export function AdminNav() {
   return (
     <nav className="flex h-full flex-col justify-between border-r border-neutral-200 bg-white p-4">
       <div>
-        <p className="mb-6 px-2 text-lg font-extrabold text-brand-700">Mundo Bubble Tea Admin</p>
+        <p className="mb-6 px-2 font-display text-lg font-semibold text-ink">
+          Mundo Bubble Tea Admin
+        </p>
         <ul className="space-y-1">
           {LINKS.map((link) => {
             const active =

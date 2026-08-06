@@ -1,43 +1,118 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f5f2;
-  --foreground: #1c2b26;
+  --background: #f7efe4;
+  --foreground: #1a120c;
+  --ink: #1a120c;
+  --milk: #fffaf4;
+  --wood: #9d6428;
+  --wood-light: #c4894a;
+  --straw: #ff7800;
+  --straw-deep: #e86a00;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-nunito);
+  --font-display: var(--font-fredoka);
 
-  /* KOI brand palette (sampled from the reference design) */
-  --color-brand-50: #e8f4ee;
-  --color-brand-100: #cfe8dc;
-  --color-brand-400: #4a9f80;
-  --color-brand-500: #2f8768;
-  --color-brand-600: #257056;
-  --color-brand-700: #1d5c46;
-  --color-brand-900: #17402a;
+  --color-brand-50: #fff4e8;
+  --color-brand-100: #ffe4c4;
+  --color-brand-400: #3d3d3d;
+  --color-brand-500: #1a1a1a;
+  --color-brand-600: #121212;
+  --color-brand-700: #0a0a0a;
+  --color-brand-900: #000000;
 
-  --color-cream: #f6f5f2;
-  --color-cream-100: #fbfaf8;
+  --color-cream: #f7efe4;
+  --color-cream-100: #fffaf4;
+  --color-milk: #fffaf4;
+  --color-ink: #1a120c;
+  --color-wood: #9d6428;
+  --color-wood-light: #c4894a;
 
-  --color-accent-500: #ff9100;
-  --color-accent-600: #d97b00;
+  --color-accent-500: #ff7800;
+  --color-accent-600: #e86a00;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito), system-ui, sans-serif;
 }
 
-/* Hide scrollbar for horizontal carousels while staying scrollable */
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-fredoka), var(--font-nunito), system-ui, sans-serif;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.store-atmosphere {
+  background: linear-gradient(180deg, #ffd9a8 0%, #f7efe4 42%, #fff8f0 100%);
+}
+
+.brand-shell {
+  background: #fffaf4;
+  border: 1px solid rgba(26, 18, 12, 0.06);
+  box-shadow: 0 18px 50px rgba(120, 70, 20, 0.12);
+}
+
+.brand-hero {
+  background: linear-gradient(180deg, #ffb347 0%, #ff7800 55%, #f06e00 100%);
+}
+
+.brand-card {
+  background: #ffffff;
+  border: 1px solid rgba(26, 18, 12, 0.06);
+  box-shadow: 0 6px 18px rgba(120, 70, 20, 0.08);
+}
+
+.brand-chip {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.brand-ink {
+  background: #1a120c;
+}
+
+.brand-accent {
+  background: #ff7800;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-rise-delay-1 {
+  animation: rise-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .animate-rise-delay-1 {
+    animation: none !important;
+  }
 }

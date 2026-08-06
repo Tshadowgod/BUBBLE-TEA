@@ -49,13 +49,13 @@ export function CartDrawer() {
       });
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error ?? "Something went wrong placing your order.");
+        throw new Error(data.error ?? "Hubo un problema al hacer el pedido.");
       }
       setOrder(data.order as PlainOrder);
       clear();
       setStep("confirmation");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : "Algo salió mal.");
     } finally {
       setSubmitting(false);
     }
@@ -63,24 +63,24 @@ export function CartDrawer() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center">
-      <div className="flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl border border-white/60 bg-white/60 shadow-xl shadow-brand-900/10 backdrop-blur-2xl sm:rounded-3xl">
-        <div className="flex shrink-0 items-center justify-between border-b border-white/20 bg-gradient-to-br from-brand-400/90 to-brand-900/90 px-6 py-5 text-white shadow-lg shadow-brand-900/20 backdrop-blur-xl">
-          <h2 className="text-lg font-bold">
-            {step === "cart" && "Your Cart"}
-            {step === "checkout" && "Checkout"}
-            {step === "confirmation" && "Order Placed"}
+      <div className="brand-shell animate-rise flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-t-[2rem] sm:rounded-[2rem]">
+        <div className="brand-ink flex shrink-0 items-center justify-between px-6 py-5 text-white">
+          <h2 className="font-display text-xl font-semibold">
+            {step === "cart" && "Tu carrito"}
+            {step === "checkout" && "Pago"}
+            {step === "confirmation" && "Pedido listo"}
           </h2>
           <button
             type="button"
             onClick={handleClose}
-            aria-label="Close cart"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 transition hover:bg-white/25"
+            aria-label="Cerrar carrito"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 transition hover:bg-white/25"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M6 6l12 12M18 6 6 18"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
               />
             </svg>
@@ -89,31 +89,40 @@ export function CartDrawer() {
 
         {step === "cart" && (
           <>
-            <div className="flex-1 overflow-y-auto px-6 py-5">
+            <div className="flex-1 overflow-y-auto bg-milk px-6 py-5">
               {items.length === 0 ? (
-                <p className="py-10 text-center text-sm text-neutral-500">
-                  Your cart is empty. Go add something tasty!
-                </p>
+                <div className="flex flex-col items-center py-12 text-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/brand/logo-mascot.png"
+                    alt=""
+                    className="mb-4 h-16 w-auto object-contain opacity-80"
+                  />
+                  <p className="font-display text-base font-semibold text-ink">
+                    El carrito está vacío
+                  </p>
+                  <p className="mt-1 text-sm text-neutral-500">
+                    ¡Agrega algo rico!
+                  </p>
+                </div>
               ) : (
-                <ul className="space-y-3">
+                <ul className="divide-y divide-black/[0.06]">
                   {items.map((item) => (
-                    <li
-                      key={item.lineId}
-                      className="flex gap-3 rounded-2xl border border-white/60 bg-white/60 p-3 shadow-sm backdrop-blur-md"
-                    >
+                    <li key={item.lineId} className="flex gap-3 py-3.5">
                       <DrinkArt
                         colorway={item.colorway}
                         imageUrl={item.imageUrl}
                         alt={item.name}
                         size="sm"
                         backdrop
+                        className="!h-14 !w-14 shrink-0"
                       />
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-neutral-800">
+                        <p className="font-display text-sm font-semibold text-ink">
                           {item.name}
                         </p>
                         <p className="text-xs text-neutral-500">
-                          Sugar {item.sugarLevel}%
+                          Azúcar {item.sugarLevel}%
                           {item.toppings.length > 0 &&
                             ` · ${item.toppings.map((t) => t.name).join(", ")}`}
                         </p>
@@ -124,12 +133,12 @@ export function CartDrawer() {
                               onClick={() =>
                                 setQuantity(item.lineId, item.quantity - 1)
                               }
-                              className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-50 text-brand-700"
-                              aria-label="Decrease quantity"
+                              className="flex h-7 w-7 items-center justify-center rounded-full bg-black/[0.06] text-ink"
+                              aria-label="Disminuir cantidad"
                             >
                               −
                             </button>
-                            <span className="w-4 text-center text-xs font-bold">
+                            <span className="w-4 text-center font-display text-xs font-bold">
                               {item.quantity}
                             </span>
                             <button
@@ -137,13 +146,13 @@ export function CartDrawer() {
                               onClick={() =>
                                 setQuantity(item.lineId, item.quantity + 1)
                               }
-                              className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-50 text-brand-700"
-                              aria-label="Increase quantity"
+                              className="brand-accent flex h-7 w-7 items-center justify-center rounded-full text-white"
+                              aria-label="Aumentar cantidad"
                             >
                               +
                             </button>
                           </div>
-                          <span className="text-sm font-bold text-brand-600">
+                          <span className="font-display text-sm font-bold text-ink">
                             {formatMoney(item.lineTotal)}
                           </span>
                         </div>
@@ -151,7 +160,7 @@ export function CartDrawer() {
                       <button
                         type="button"
                         onClick={() => removeItem(item.lineId)}
-                        aria-label="Remove item"
+                        aria-label="Quitar producto"
                         className="self-start text-neutral-300 transition hover:text-accent-500"
                       >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -169,17 +178,17 @@ export function CartDrawer() {
               )}
             </div>
             {items.length > 0 && (
-              <div className="shrink-0 border-t border-white/10 bg-brand-900/80 px-6 pb-6 pt-4 text-white backdrop-blur-xl">
-                <div className="mb-3 flex justify-between text-base font-bold">
+              <div className="brand-ink shrink-0 px-6 pb-6 pt-4 text-white">
+                <div className="mb-3 flex justify-between font-display text-base font-bold">
                   <span>Subtotal</span>
                   <span>{formatMoney(subtotal)}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setStep("checkout")}
-                  className="w-full rounded-full bg-white py-3 text-sm font-bold text-brand-700 transition hover:bg-brand-50"
+                  className="brand-accent w-full rounded-full py-3.5 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-accent-600"
                 >
-                  Checkout
+                  Continuar
                 </button>
               </div>
             )}
@@ -188,76 +197,82 @@ export function CartDrawer() {
 
         {step === "checkout" && (
           <form onSubmit={handlePlaceOrder} className="flex flex-1 flex-col overflow-hidden">
-            <div className="flex-1 overflow-y-auto px-6 py-5">
-              <div className="mb-4 rounded-2xl border border-white/60 bg-white/60 p-4 shadow-sm backdrop-blur-md">
-                <div className="flex justify-between text-sm font-bold text-neutral-700">
-                  <span>{items.reduce((s, i) => s + i.quantity, 0)} items</span>
-                  <span>{formatMoney(subtotal)}</span>
-                </div>
+            <div className="flex-1 overflow-y-auto bg-milk px-6 py-5">
+              <div className="mb-4 flex justify-between rounded-2xl bg-black/[0.04] px-4 py-3 font-display text-sm font-bold text-ink">
+                <span>
+                  {items.reduce((s, i) => s + i.quantity, 0)} productos
+                </span>
+                <span>{formatMoney(subtotal)}</span>
               </div>
 
               <label className="mb-3 block text-sm">
-                <span className="mb-1 block font-semibold text-neutral-700">Name</span>
+                <span className="mb-1 block font-bold text-ink">Nombre</span>
                 <input
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
-                  className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-500"
+                  placeholder="Tu nombre"
+                  className="w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
                 />
               </label>
 
               <label className="mb-3 block text-sm">
-                <span className="mb-1 block font-semibold text-neutral-700">Phone</span>
+                <span className="mb-1 block font-bold text-ink">Teléfono</span>
                 <input
                   required
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="For order updates"
-                  className="w-full rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-500"
+                  placeholder="Para avisarte del pedido"
+                  className="w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
                 />
               </label>
 
               <label className="mb-3 block text-sm">
-                <span className="mb-1 block font-semibold text-neutral-700">
-                  Notes (optional)
+                <span className="mb-1 block font-bold text-ink">
+                  Notas (opcional)
                 </span>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Allergies, delivery instructions, etc."
+                  placeholder="Alergias, notas de retiro, etc."
                   rows={2}
-                  className="w-full resize-none rounded-xl border border-neutral-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-500"
+                  className="w-full resize-none rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
                 />
               </label>
 
               {error && (
-                <p className="rounded-xl bg-red-50 px-3 py-2 text-xs font-medium text-accent-600">
+                <p className="rounded-xl bg-red-50 px-3 py-2 text-xs font-medium text-red-600">
                   {error}
                 </p>
               )}
             </div>
-            <div className="shrink-0 border-t border-white/10 bg-brand-900/80 px-6 pb-6 pt-4 text-white backdrop-blur-xl">
-              <div className="mb-3 flex justify-between text-base font-bold">
+            <div className="brand-ink shrink-0 px-6 pb-6 pt-4 text-white">
+              <div className="mb-3 flex justify-between font-display text-base font-bold">
                 <span>Total</span>
                 <span>{formatMoney(subtotal)}</span>
               </div>
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full rounded-full bg-white py-3 text-sm font-bold text-brand-700 transition hover:bg-brand-50 disabled:opacity-60"
+                className="brand-accent w-full rounded-full py-3.5 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-accent-600 disabled:opacity-60"
               >
-                {submitting ? "Placing order…" : "Place Order"}
+                {submitting ? "Enviando pedido…" : "Hacer pedido"}
               </button>
             </div>
           </form>
         )}
 
         {step === "confirmation" && order && (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-10 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-50 text-brand-600">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 bg-milk px-6 py-10 text-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/logo-mascot.png"
+              alt=""
+              className="h-20 w-auto object-contain"
+            />
+            <div className="brand-accent flex h-10 w-10 items-center justify-center rounded-full text-white">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M5 13l4 4L19 7"
                   stroke="currentColor"
@@ -267,13 +282,15 @@ export function CartDrawer() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-bold text-neutral-800">Thanks, {order.customerName}!</h3>
+            <h3 className="font-display text-xl font-semibold text-ink">
+              ¡Gracias, {order.customerName}!
+            </h3>
             <p className="text-sm text-neutral-500">
-              Your order has been received and is being prepared.
+              Recibimos tu pedido y ya lo estamos preparando.
             </p>
-            <div className="w-full rounded-2xl border border-white/60 bg-white/60 p-4 text-left shadow-sm backdrop-blur-md">
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-400">
-                Order #{order.id.slice(-8)}
+            <div className="brand-card w-full rounded-2xl p-4 text-left">
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.12em] text-neutral-400">
+                Pedido #{order.id.slice(-8)}
               </p>
               <ul className="space-y-1 text-sm text-neutral-700">
                 {order.items.map((item) => (
@@ -285,7 +302,7 @@ export function CartDrawer() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-2 flex justify-between border-t border-neutral-100 pt-2 text-sm font-bold text-brand-600">
+              <div className="mt-2 flex justify-between border-t border-black/10 pt-2 font-display text-sm font-bold text-ink">
                 <span>Total</span>
                 <span>{formatMoney(order.total)}</span>
               </div>
@@ -293,9 +310,9 @@ export function CartDrawer() {
             <button
               type="button"
               onClick={handleClose}
-              className="w-full rounded-full bg-brand-600 py-3 text-sm font-bold text-white transition hover:bg-brand-700"
+              className="brand-ink w-full rounded-full py-3.5 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:opacity-90"
             >
-              Back to Menu
+              Volver al menú
             </button>
           </div>
         )}

@@ -14,37 +14,36 @@ export function NewDrinkCard({
     <button
       type="button"
       onClick={() => onSelect(drink)}
-      className="flex w-40 shrink-0 flex-col overflow-hidden rounded-2xl border border-white/70 bg-white/55 text-left shadow-sm backdrop-blur-xl transition hover:shadow-md"
+      className="brand-card group flex w-[11.5rem] shrink-0 flex-col overflow-hidden rounded-[1.25rem] text-left transition hover:-translate-y-0.5 active:scale-[0.98]"
     >
-      <div className="relative flex h-32 shrink-0 items-center justify-center bg-white/30">
+      <div className="relative flex h-40 shrink-0 items-center justify-center overflow-hidden bg-neutral-100">
         <DrinkArt
           colorway={drink.colorway}
           imageUrl={drink.imageUrl}
           alt={drink.name}
           size="lg"
-          rounded="full"
-          backdrop
-          className="!h-24 !w-24"
+          rounded="xl"
+          className="!h-full !w-full !rounded-none transition duration-300 group-hover:scale-105"
         />
-        <span className="absolute bottom-2 left-2 rounded-full bg-accent-500 px-2 py-0.5 text-[10px] font-bold text-white">
-          NEW!
+        <span className="brand-accent absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 font-display text-[10px] font-semibold uppercase tracking-wide text-white">
+          Nuevo
         </span>
-        <span className="absolute right-2 top-2 text-sm font-extrabold text-neutral-800">
+        <span className="brand-ink absolute bottom-2.5 right-2.5 rounded-full px-2.5 py-1 font-display text-sm font-semibold text-white">
           ${dollars}
           <sup className="text-[10px]">{cents}</sup>
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-1 p-3">
+      <div className="flex flex-1 flex-col gap-1 p-3.5">
         {drink.tag && (
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-neutral-400">
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-500">
             {drink.tag}
           </span>
         )}
         <div className="flex items-end justify-between gap-2">
-          <span className="text-sm font-semibold leading-tight text-neutral-800">
+          <span className="font-display text-[15px] font-semibold leading-tight text-ink">
             {drink.name}
           </span>
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-500 text-white">
+          <span className="brand-accent flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M12 5v14M5 12h14"

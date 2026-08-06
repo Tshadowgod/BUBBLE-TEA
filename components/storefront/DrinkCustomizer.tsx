@@ -69,25 +69,25 @@ export function DrinkCustomizer({
   }
 
   return (
-    <div className="fixed inset-0 z-50 mx-auto flex w-full max-w-md flex-col overflow-hidden border border-white/60 bg-white/50 shadow-xl shadow-brand-900/10 backdrop-blur-2xl sm:my-6 sm:h-[calc(100vh-3rem)] sm:rounded-3xl">
-      <div className="shrink-0 rounded-b-3xl border-b border-white/20 bg-gradient-to-br from-brand-400/90 to-brand-900/90 shadow-lg shadow-brand-900/20 backdrop-blur-xl">
-        <Header storeName={storeName} storeLocation={storeLocation} />
+    <div className="brand-shell fixed inset-0 z-50 mx-auto flex w-full max-w-md flex-col overflow-hidden sm:my-6 sm:h-[calc(100vh-3rem)] sm:rounded-[2rem]">
+      <div className="brand-hero rounded-b-[2rem]">
+        <Header storeName={storeName} storeLocation={storeLocation} compact />
       </div>
 
-      <div className="flex-1 overflow-y-auto">
-        <div className="bg-white/30 px-5 pb-5 pt-3 backdrop-blur-md">
+      <div className="flex-1 overflow-y-auto bg-milk">
+        <div className="px-5 pb-5 pt-4">
           <div className="mb-4 flex justify-end">
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close"
-              className="text-neutral-400 transition hover:text-neutral-600"
+              aria-label="Cerrar"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-neutral-600 transition hover:bg-black/10 hover:text-ink"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M6 6l12 12M18 6 6 18"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                 />
               </svg>
@@ -102,50 +102,50 @@ export function DrinkCustomizer({
               size="lg"
               rounded="full"
               backdrop
-              className="!h-28 !w-28 shrink-0"
+              className="!h-28 !w-28 shrink-0 shadow-md"
             />
             <div>
               {drink.isNew && (
-                <span className="mb-1 inline-block rounded-full bg-accent-500 px-2 py-0.5 text-[10px] font-bold text-white">
-                  NEW!
+                <span className="mb-1 inline-block rounded-full bg-accent-500 px-2 py-0.5 font-display text-[10px] font-semibold uppercase tracking-wide text-white">
+                  Nuevo
                 </span>
               )}
               {drink.tag && (
-                <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-neutral-400">
                   {drink.tag}
                 </p>
               )}
-              <h2 className="text-lg font-bold leading-snug text-neutral-800">
+              <h2 className="font-display text-xl font-semibold leading-snug text-ink">
                 {drink.name}
               </h2>
-              <p className="text-2xl font-extrabold text-neutral-800">
+              <p className="font-display text-2xl font-bold text-ink">
                 ${dollars}
                 <sup className="text-sm">{cents}</sup>
               </p>
             </div>
           </div>
 
-          <div className="flex items-center justify-between rounded-2xl border border-white/50 bg-brand-100/40 px-4 py-3 backdrop-blur-md">
-            <span className="text-xs font-bold uppercase tracking-wide text-brand-700">
-              Quantity
+          <div className="flex items-center justify-between rounded-2xl bg-black/[0.04] px-4 py-3">
+            <span className="text-xs font-bold uppercase tracking-[0.12em] text-neutral-500">
+              Cantidad
             </span>
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="flex h-7 w-7 items-center justify-center rounded-full border border-white/60 bg-white/70 text-brand-700 shadow-sm backdrop-blur-md"
-                aria-label="Decrease quantity"
+                className="brand-ink flex h-8 w-8 items-center justify-center rounded-full text-white"
+                aria-label="Disminuir cantidad"
               >
                 −
               </button>
-              <span className="w-4 text-center text-sm font-bold text-brand-700">
+              <span className="w-5 text-center font-display text-base font-bold text-ink">
                 {quantity}
               </span>
               <button
                 type="button"
                 onClick={() => setQuantity((q) => q + 1)}
-                className="flex h-7 w-7 items-center justify-center rounded-full border border-white/60 bg-white/70 text-brand-700 shadow-sm backdrop-blur-md"
-                aria-label="Increase quantity"
+                className="brand-accent flex h-8 w-8 items-center justify-center rounded-full text-white"
+                aria-label="Aumentar cantidad"
               >
                 +
               </button>
@@ -153,36 +153,49 @@ export function DrinkCustomizer({
           </div>
         </div>
 
-        <div className="bg-white/15 px-5 py-5 backdrop-blur-md">
-          <div className="mb-6">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-              Sugar Level
+        <div className="px-5 py-5">
+          <div className="mb-7">
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.12em] text-neutral-500">
+              Nivel de azúcar
             </span>
             <div className="relative">
-              <div className="absolute left-0 right-0 top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-brand-100" />
+              <div className="absolute left-0 right-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-black/10" />
+              <div
+                className="absolute left-0 top-1/2 h-1 -translate-y-1/2 rounded-full bg-accent-500 transition-all"
+                style={{
+                  width: `${(sugarIndex / (SUGAR_LEVELS.length - 1)) * 100}%`,
+                }}
+              />
               <div className="relative flex justify-between">
                 {SUGAR_LEVELS.map((level, i) => {
                   const active = i === sugarIndex;
+                  const filled = i <= sugarIndex;
                   return (
                     <button
                       type="button"
                       key={level}
                       onClick={() => setSugarLevel(level)}
-                      aria-label={`Sugar level ${level}%`}
+                      aria-label={`Nivel de azúcar ${level}%`}
                       className={`flex items-center justify-center rounded-full transition ${
-                        active ? "h-4 w-4 bg-brand-500" : "h-2.5 w-2.5 bg-brand-100"
+                        active
+                          ? "h-4 w-4 bg-accent-500 shadow-[0_0_0_4px_rgba(255,120,0,0.2)]"
+                          : filled
+                            ? "h-2.5 w-2.5 bg-accent-500"
+                            : "h-2.5 w-2.5 bg-black/15"
                       }`}
                     />
                   );
                 })}
               </div>
             </div>
-            <div className="mt-2 flex justify-between text-[11px] font-medium text-neutral-400">
+            <div className="mt-2.5 flex justify-between text-[11px] font-semibold text-neutral-400">
               {SUGAR_LEVELS.map((level) => (
                 <span
                   key={level}
                   className={
-                    level === sugarLevel ? "text-sm font-bold text-brand-500" : ""
+                    level === sugarLevel
+                      ? "font-display text-sm font-bold text-accent-500"
+                      : ""
                   }
                 >
                   {level}%
@@ -192,10 +205,10 @@ export function DrinkCustomizer({
           </div>
 
           <div>
-            <span className="mb-3 block text-xs font-bold uppercase tracking-wide text-neutral-500">
-              Add Toppings
+            <span className="mb-3 block text-xs font-bold uppercase tracking-[0.12em] text-neutral-500">
+              Agregar toppings
             </span>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2.5">
               {toppings.map((topping) => {
                 const selected = selectedToppingIds.has(topping.id);
                 return (
@@ -203,15 +216,12 @@ export function DrinkCustomizer({
                     type="button"
                     key={topping.id}
                     onClick={() => toggleTopping(topping.id)}
-                    className={`relative flex flex-col items-center gap-1.5 overflow-visible rounded-2xl border border-white/60 bg-white/55 p-2.5 pb-3 pt-2 text-center shadow-sm backdrop-blur-md transition ${
-                      selected ? "ring-2 ring-brand-500" : ""
+                    className={`relative flex flex-col items-center gap-1.5 rounded-2xl px-2 pb-3 pt-2.5 text-center transition ${
+                      selected
+                        ? "brand-ink text-white"
+                        : "bg-black/[0.04] text-ink hover:bg-black/[0.07]"
                     }`}
                   >
-                    {selected && (
-                      <span className="absolute left-1.5 top-1.5 z-10 flex h-4 w-4 items-center justify-center rounded bg-brand-500 text-[9px] font-bold text-white">
-                        1
-                      </span>
-                    )}
                     <DrinkArt
                       colorway={topping.colorway}
                       imageUrl={topping.imageUrl}
@@ -220,12 +230,23 @@ export function DrinkCustomizer({
                       size="sm"
                       className="!h-12 !w-12"
                     />
-                    <span className="text-[11px] font-semibold leading-tight text-neutral-700">
+                    <span
+                      className={`text-[11px] font-bold leading-tight ${
+                        selected ? "text-white" : "text-neutral-700"
+                      }`}
+                    >
                       {topping.name}
                     </span>
                     <span
-                      className={`absolute -bottom-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full text-white shadow ${
-                        selected ? "bg-accent-500" : "bg-brand-500"
+                      className={`text-[10px] font-semibold ${
+                        selected ? "text-accent-500" : "text-neutral-400"
+                      }`}
+                    >
+                      +{formatMoney(topping.price)}
+                    </span>
+                    <span
+                      className={`absolute -bottom-1.5 -right-1 flex h-6 w-6 items-center justify-center rounded-full text-white ${
+                        selected ? "brand-accent" : "brand-ink"
                       }`}
                     >
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -255,7 +276,7 @@ export function DrinkCustomizer({
       </div>
 
       <div className="shrink-0">
-        <div className="border-t border-white/10 bg-brand-900/80 px-6 pb-3 pt-4 text-white backdrop-blur-xl">
+        <div className="brand-ink px-6 pb-3 pt-4 text-white">
           <div className="space-y-1.5 text-sm">
             <div className="flex justify-between">
               <span>
@@ -264,12 +285,12 @@ export function DrinkCustomizer({
               <span>{formatMoney(drink.price * quantity)}</span>
             </div>
             {selectedToppings.map((t) => (
-              <div key={t.id} className="flex justify-between text-white/60">
+              <div key={t.id} className="flex justify-between text-white/55">
                 <span>{t.name}</span>
                 <span>{formatMoney(t.price * quantity)}</span>
               </div>
             ))}
-            <div className="flex justify-between border-t border-white/15 pt-2 text-base font-bold">
+            <div className="flex justify-between border-t border-white/15 pt-2 font-display text-base font-bold">
               <span>Subtotal</span>
               <span>{formatMoney(subtotal)}</span>
             </div>
@@ -278,9 +299,9 @@ export function DrinkCustomizer({
         <button
           type="button"
           onClick={handleAddToCart}
-          className="w-full bg-gradient-to-r from-brand-400/90 to-brand-600/90 py-4 text-sm font-bold text-white backdrop-blur-xl transition hover:from-brand-400 hover:to-brand-600"
+          className="brand-accent w-full py-4 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-accent-600 active:scale-[0.99]"
         >
-          Add to Cart
+          Agregar al carrito
         </button>
       </div>
     </div>
