@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  READY
+  COMPLETED
+  CANCELLED
+}
+
+model Drink {
+  id            String   @id @default(cuid())
+  name          String
+  category      String // e.g. "Bubble Tea", "Milk Tea", "Latte"
+  tag           String? // e.g. "CHEWY TEA", "FLAVOURED TEA"
+  description   String?
+  price         Decimal  @db.Decimal(10, 2)
+  originalPrice Decimal? @db.Decimal(10, 2) // set to show a strikethrough discount price
+  colorway      String   @default("honey") // key used to render the placeholder art when no imageUrl is set
+  imageUrl      String?
+  isNew         Boolean  @default(false)
+  active        Boolean  @default(true)
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  orderItems OrderItem[]
+
+  @@index([active, sortOrder])
+}
+
+model Topping {
+  id        String   @id @default(cuid())
+  name      String
+  price     Decimal  @db.Decimal(10, 2)
+  colorway  String   @default("pearl")
+  imageUrl  String?
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orderItemToppings OrderItemTopping[]
+
+  @@index([active, sortOrder])
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  customerName  String
+  customerPhone String
+  notes         String?
+  status        OrderStatus @default(PENDING)
+  subtotal      Decimal     @db.Decimal(10, 2)
+  total         Decimal     @db.Decimal(10, 2)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  items OrderItem[]
+
+  @@index([status, createdAt])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  drinkId    String?
+  drink      Drink?   @relation(fields: [drinkId], references: [id], onDelete: SetNull)
+  drinkName  String // snapshot, survives drink edits/deletes
+  unitPrice  Decimal  @db.Decimal(10, 2)
+  quantity   Int      @default(1)
+  sugarLevel Int      @default(50) // 0, 25, 50, 75, 100
+  lineTotal  Decimal  @db.Decimal(10, 2)
+
+  toppings OrderItemTopping[]
+
+  @@index([orderId])
+}
+
+model OrderItemTopping {
+  id          String    @id @default(cuid())
+  orderItemId String
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  toppingId   String?
+  topping     Topping?  @relation(fields: [toppingId], references: [id], onDelete: SetNull)
+  name        String // snapshot
+  price       Decimal   @db.Decimal(10, 2)
+
+  @@index([orderItemId])
+}
