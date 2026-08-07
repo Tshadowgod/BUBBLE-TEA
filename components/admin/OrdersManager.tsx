@@ -4,14 +4,7 @@ import { Fragment, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatMoney } from "@/lib/format";
 import type { OrderStatus, PlainOrder } from "@/lib/types";
-
-const STATUSES: OrderStatus[] = [
-  "PENDING",
-  "PREPARING",
-  "READY",
-  "COMPLETED",
-  "CANCELLED",
-];
+import { ORDER_STATUSES, ORDER_STATUS_LABELS } from "@/lib/orderStatus";
 
 const STATUS_STYLES: Record<OrderStatus, string> = {
   PENDING: "bg-amber-50 text-amber-700",
@@ -42,17 +35,17 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-extrabold text-neutral-800">Orders</h1>
+      <h1 className="mb-6 text-2xl font-extrabold text-neutral-800">Pedidos</h1>
 
       <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-neutral-100 text-xs font-semibold uppercase text-neutral-400">
             <tr>
-              <th className="px-5 py-3">Order</th>
-              <th className="px-5 py-3">Customer</th>
-              <th className="px-5 py-3">Placed</th>
+              <th className="px-5 py-3">Pedido</th>
+              <th className="px-5 py-3">Cliente</th>
+              <th className="px-5 py-3">Fecha</th>
               <th className="px-5 py-3">Total</th>
-              <th className="px-5 py-3">Status</th>
+              <th className="px-5 py-3">Estado</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-neutral-100">
@@ -88,9 +81,9 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
                       }
                       className={`rounded-full border-0 px-2.5 py-1 text-xs font-semibold outline-none ${STATUS_STYLES[order.status]}`}
                     >
-                      {STATUSES.map((s) => (
+                      {ORDER_STATUSES.map((s) => (
                         <option key={s} value={s}>
-                          {s}
+                          {ORDER_STATUS_LABELS[s]}
                         </option>
                       ))}
                     </select>
@@ -106,7 +99,7 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
                               {item.quantity}x {item.drinkName}
                               {item.toppings.length > 0 &&
                                 ` (${item.toppings.map((t) => t.name).join(", ")})`}
-                              {" · Sugar "}
+                              {" · Azúcar "}
                               {item.sugarLevel}%
                             </span>
                             <span>{formatMoney(item.lineTotal)}</span>
@@ -115,7 +108,7 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
                       </ul>
                       {order.notes && (
                         <p className="mt-2 text-xs text-neutral-400">
-                          Notes: {order.notes}
+                          Notas: {order.notes}
                         </p>
                       )}
                     </td>
@@ -126,7 +119,7 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
             {orders.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-5 py-8 text-center text-neutral-400">
-                  No orders yet.
+                  Todavía no hay pedidos.
                 </td>
               </tr>
             )}

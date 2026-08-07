@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { ORDER_STATUS_LABELS } from "@/lib/orderStatus";
+import type { OrderStatus } from "@/lib/types";
 
 export const revalidate = 0;
 
@@ -17,15 +19,15 @@ export default async function AdminDashboardPage() {
     ]);
 
   const stats = [
-    { label: "Drinks on menu", value: drinkCount, href: "/admin/drinks" },
+    { label: "Bebidas en el menú", value: drinkCount, href: "/admin/drinks" },
     { label: "Toppings", value: toppingCount, href: "/admin/toppings" },
-    { label: "Total orders", value: orderCount, href: "/admin/orders" },
-    { label: "Needs attention", value: pendingCount, href: "/admin/orders" },
+    { label: "Pedidos totales", value: orderCount, href: "/admin/orders" },
+    { label: "Por atender", value: pendingCount, href: "/admin/orders" },
   ];
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-extrabold text-neutral-800">Dashboard</h1>
+      <h1 className="mb-6 text-2xl font-extrabold text-neutral-800">Inicio</h1>
 
       <div className="mb-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {stats.map((stat) => (
@@ -43,14 +45,14 @@ export default async function AdminDashboardPage() {
       <div className="rounded-2xl bg-white p-5 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-bold uppercase tracking-wide text-neutral-500">
-            Recent orders
+            Pedidos recientes
           </h2>
           <Link href="/admin/orders" className="text-xs font-semibold text-brand-600">
-            View all
+            Ver todos
           </Link>
         </div>
         {recentOrders.length === 0 ? (
-          <p className="text-sm text-neutral-400">No orders yet.</p>
+          <p className="text-sm text-neutral-400">Todavía no hay pedidos.</p>
         ) : (
           <ul className="divide-y divide-neutral-100">
             {recentOrders.map((order) => (
@@ -64,7 +66,7 @@ export default async function AdminDashboardPage() {
                   </p>
                 </div>
                 <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
-                  {order.status}
+                  {ORDER_STATUS_LABELS[order.status as OrderStatus]}
                 </span>
               </li>
             ))}

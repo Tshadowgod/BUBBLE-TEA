@@ -110,37 +110,37 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
       );
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Could not save drink.");
+        throw new Error(data.error ?? "No se pudo guardar la bebida.");
       }
       setForm(EMPTY_FORM);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : "Algo salió mal.");
     } finally {
       setSaving(false);
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Delete this drink? This cannot be undone.")) return;
+    if (!confirm("¿Eliminar esta bebida? No se puede deshacer.")) return;
     const res = await fetch(`/api/admin/drinks/${id}`, { method: "DELETE" });
     if (res.ok) router.refresh();
   }
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-extrabold text-neutral-800">Drinks</h1>
+      <h1 className="mb-6 text-2xl font-extrabold text-neutral-800">Bebidas</h1>
 
       <form
         onSubmit={handleSubmit}
         className="mb-8 grid grid-cols-1 gap-4 rounded-2xl bg-white p-6 shadow-sm sm:grid-cols-2"
       >
         <h2 className="col-span-full text-sm font-bold uppercase tracking-wide text-neutral-500">
-          {form.id ? "Edit drink" : "Add a new drink"}
+          {form.id ? "Editar bebida" : "Agregar una bebida"}
         </h2>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Name</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Nombre</span>
           <input
             required
             value={form.name}
@@ -150,28 +150,28 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Category</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Categoría</span>
           <input
             required
             value={form.category}
             onChange={(e) => setForm({ ...form, category: e.target.value })}
-            placeholder="Bubble Tea, Latte…"
+            placeholder="Jugos con leche, Frappés…"
             className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Tag</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Etiqueta</span>
           <input
             value={form.tag}
             onChange={(e) => setForm({ ...form, tag: e.target.value })}
-            placeholder="CHEWY TEA"
+            placeholder="500 / 700 ml"
             className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           />
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Colorway</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Color de relleno</span>
           <select
             value={form.colorway}
             onChange={(e) => setForm({ ...form, colorway: e.target.value })}
@@ -186,7 +186,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Price</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Precio 500 ml</span>
           <input
             required
             type="number"
@@ -200,7 +200,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
 
         <label className="text-sm">
           <span className="mb-1 block font-semibold text-neutral-700">
-            700ml price (optional — leave blank for single-size drinks)
+            Precio 700 ml (opcional — dejar vacío si es de tamaño único)
           </span>
           <input
             type="number"
@@ -214,7 +214,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
 
         <label className="text-sm">
           <span className="mb-1 block font-semibold text-neutral-700">
-            Original price (optional, for discounts)
+            Precio anterior (opcional, para descuentos)
           </span>
           <input
             type="number"
@@ -227,7 +227,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
         </label>
 
         <label className="text-sm sm:col-span-2">
-          <span className="mb-1 block font-semibold text-neutral-700">Description</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Descripción</span>
           <textarea
             rows={2}
             value={form.description}
@@ -238,7 +238,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
 
         <label className="text-sm sm:col-span-2">
           <span className="mb-1 block font-semibold text-neutral-700">
-            Image URL (optional — leave blank to use placeholder art)
+            URL de la imagen (opcional — vacío usa la ilustración por defecto)
           </span>
           <input
             value={form.imageUrl}
@@ -249,7 +249,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Sort order</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Orden</span>
           <input
             type="number"
             value={form.sortOrder}
@@ -265,7 +265,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
               checked={form.isNew}
               onChange={(e) => setForm({ ...form, isNew: e.target.checked })}
             />
-            Show in New Drinks
+            Mostrar en Novedades
           </label>
           <label className="flex items-center gap-2 font-semibold text-neutral-700">
             <input
@@ -273,7 +273,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
               checked={form.active}
               onChange={(e) => setForm({ ...form, active: e.target.checked })}
             />
-            Active
+            Activa
           </label>
         </div>
 
@@ -289,7 +289,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
             disabled={saving}
             className="rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
           >
-            {saving ? "Saving…" : form.id ? "Save changes" : "Add drink"}
+            {saving ? "Guardando…" : form.id ? "Guardar cambios" : "Agregar bebida"}
           </button>
           {form.id && (
             <button
@@ -297,7 +297,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
               onClick={() => setForm(EMPTY_FORM)}
               className="rounded-full bg-neutral-100 px-6 py-2.5 text-sm font-bold text-neutral-600 transition hover:bg-neutral-200"
             >
-              Cancel
+              Cancelar
             </button>
           )}
         </div>
@@ -307,10 +307,10 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
         <table className="w-full text-left text-sm">
           <thead className="border-b border-neutral-100 text-xs font-semibold uppercase text-neutral-400">
             <tr>
-              <th className="px-5 py-3">Drink</th>
-              <th className="px-5 py-3">Category</th>
-              <th className="px-5 py-3">Price</th>
-              <th className="px-5 py-3">Status</th>
+              <th className="px-5 py-3">Bebida</th>
+              <th className="px-5 py-3">Categoría</th>
+              <th className="px-5 py-3">Precio</th>
+              <th className="px-5 py-3">Estado</th>
               <th className="px-5 py-3" />
             </tr>
           </thead>
@@ -329,7 +329,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
                   <span className="font-semibold text-neutral-800">{drink.name}</span>
                   {drink.isNew && (
                     <span className="rounded-full bg-accent-500/10 px-2 py-0.5 text-[10px] font-bold text-accent-600">
-                      NEW
+                      NUEVA
                     </span>
                   )}
                 </td>
@@ -348,7 +348,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
                         : "bg-neutral-100 text-neutral-500"
                     }`}
                   >
-                    {drink.active ? "Active" : "Hidden"}
+                    {drink.active ? "Activa" : "Oculta"}
                   </span>
                 </td>
                 <td className="px-5 py-3 text-right">
@@ -357,14 +357,14 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
                     onClick={() => startEdit(drink)}
                     className="mr-3 text-xs font-semibold text-brand-600"
                   >
-                    Edit
+                    Editar
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDelete(drink.id)}
                     className="text-xs font-semibold text-accent-600"
                   >
-                    Delete
+                    Eliminar
                   </button>
                 </td>
               </tr>
@@ -372,7 +372,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
             {drinks.length === 0 && (
               <tr>
                 <td colSpan={5} className="px-5 py-8 text-center text-neutral-400">
-                  No drinks yet — add your first one above.
+                  Todavía no hay bebidas — agregá la primera arriba.
                 </td>
               </tr>
             )}

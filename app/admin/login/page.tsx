@@ -23,13 +23,13 @@ function LoginForm() {
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Invalid credentials.");
+        throw new Error(data.error ?? "Usuario o contraseña incorrectos.");
       }
       const next = searchParams.get("next") ?? "/admin";
       router.push(next);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : "Algo salió mal.");
     } finally {
       setSubmitting(false);
     }
@@ -58,10 +58,12 @@ function LoginForm() {
         <h1 className="mb-1 font-display text-xl font-semibold text-ink">
           Admin
         </h1>
-        <p className="mb-6 text-sm text-neutral-500">Sign in to manage the menu and orders.</p>
+        <p className="mb-6 text-sm text-neutral-500">
+          Ingresá para administrar el menú y los pedidos.
+        </p>
 
         <label className="mb-4 block text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Username</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Usuario</span>
           <input
             required
             autoFocus
@@ -72,7 +74,7 @@ function LoginForm() {
         </label>
 
         <label className="mb-6 block text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Password</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Contraseña</span>
           <input
             required
             type="password"
@@ -93,7 +95,7 @@ function LoginForm() {
           disabled={submitting}
           className="w-full rounded-full bg-accent-500 py-3 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:bg-accent-600 disabled:opacity-60"
         >
-          {submitting ? "Signing in…" : "Sign in"}
+          {submitting ? "Ingresando…" : "Ingresar"}
         </button>
       </form>
     </div>

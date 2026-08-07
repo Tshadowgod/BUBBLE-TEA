@@ -82,19 +82,19 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
       );
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Could not save topping.");
+        throw new Error(data.error ?? "No se pudo guardar el topping.");
       }
       setForm(EMPTY_FORM);
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : "Algo salió mal.");
     } finally {
       setSaving(false);
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("Delete this topping? This cannot be undone.")) return;
+    if (!confirm("¿Eliminar este topping? No se puede deshacer.")) return;
     const res = await fetch(`/api/admin/toppings/${id}`, { method: "DELETE" });
     if (res.ok) router.refresh();
   }
@@ -108,11 +108,11 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
         className="mb-8 grid grid-cols-1 gap-4 rounded-2xl bg-white p-6 shadow-sm sm:grid-cols-2"
       >
         <h2 className="col-span-full text-sm font-bold uppercase tracking-wide text-neutral-500">
-          {form.id ? "Edit topping" : "Add a new topping"}
+          {form.id ? "Editar topping" : "Agregar un topping"}
         </h2>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Name</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Nombre</span>
           <input
             required
             value={form.name}
@@ -122,7 +122,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Price</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Precio</span>
           <input
             required
             type="number"
@@ -135,7 +135,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Colorway</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Color de relleno</span>
           <select
             value={form.colorway}
             onChange={(e) => setForm({ ...form, colorway: e.target.value })}
@@ -150,7 +150,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
         </label>
 
         <label className="text-sm">
-          <span className="mb-1 block font-semibold text-neutral-700">Sort order</span>
+          <span className="mb-1 block font-semibold text-neutral-700">Orden</span>
           <input
             type="number"
             value={form.sortOrder}
@@ -161,7 +161,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
 
         <label className="text-sm sm:col-span-2">
           <span className="mb-1 block font-semibold text-neutral-700">
-            Image URL (optional — leave blank to use placeholder art)
+            URL de la imagen (opcional — vacío usa la ilustración por defecto)
           </span>
           <input
             value={form.imageUrl}
@@ -177,7 +177,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
             checked={form.active}
             onChange={(e) => setForm({ ...form, active: e.target.checked })}
           />
-          Active
+          Activo
         </label>
 
         {error && (
@@ -192,7 +192,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
             disabled={saving}
             className="rounded-full bg-brand-600 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-700 disabled:opacity-60"
           >
-            {saving ? "Saving…" : form.id ? "Save changes" : "Add topping"}
+            {saving ? "Guardando…" : form.id ? "Guardar cambios" : "Agregar topping"}
           </button>
           {form.id && (
             <button
@@ -200,7 +200,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
               onClick={() => setForm(EMPTY_FORM)}
               className="rounded-full bg-neutral-100 px-6 py-2.5 text-sm font-bold text-neutral-600 transition hover:bg-neutral-200"
             >
-              Cancel
+              Cancelar
             </button>
           )}
         </div>
@@ -211,8 +211,8 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
           <thead className="border-b border-neutral-100 text-xs font-semibold uppercase text-neutral-400">
             <tr>
               <th className="px-5 py-3">Topping</th>
-              <th className="px-5 py-3">Price</th>
-              <th className="px-5 py-3">Status</th>
+              <th className="px-5 py-3">Precio</th>
+              <th className="px-5 py-3">Estado</th>
               <th className="px-5 py-3" />
             </tr>
           </thead>
@@ -242,7 +242,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
                         : "bg-neutral-100 text-neutral-500"
                     }`}
                   >
-                    {topping.active ? "Active" : "Hidden"}
+                    {topping.active ? "Activo" : "Oculto"}
                   </span>
                 </td>
                 <td className="px-5 py-3 text-right">
@@ -251,14 +251,14 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
                     onClick={() => startEdit(topping)}
                     className="mr-3 text-xs font-semibold text-brand-600"
                   >
-                    Edit
+                    Editar
                   </button>
                   <button
                     type="button"
                     onClick={() => handleDelete(topping.id)}
                     className="text-xs font-semibold text-accent-600"
                   >
-                    Delete
+                    Eliminar
                   </button>
                 </td>
               </tr>
@@ -266,7 +266,7 @@ export function ToppingsManager({ toppings }: { toppings: PlainTopping[] }) {
             {toppings.length === 0 && (
               <tr>
                 <td colSpan={4} className="px-5 py-8 text-center text-neutral-400">
-                  No toppings yet — add your first one above.
+                  Todavía no hay toppings — agregá el primero arriba.
                 </td>
               </tr>
             )}

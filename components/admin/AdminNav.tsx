@@ -4,10 +4,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 const LINKS = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/drinks", label: "Drinks" },
+  { href: "/admin", label: "Inicio" },
+  { href: "/admin/drinks", label: "Bebidas" },
   { href: "/admin/toppings", label: "Toppings" },
-  { href: "/admin/orders", label: "Orders" },
+  { href: "/admin/orders", label: "Pedidos" },
 ];
 
 export function AdminNav() {
@@ -71,7 +71,7 @@ export function AdminNav() {
         onClick={handleLogout}
         className="rounded-lg px-3 py-2 text-left text-sm font-medium text-neutral-500 transition hover:bg-neutral-50"
       >
-        Log out
+        Cerrar sesión
       </button>
     </nav>
   );
