@@ -62,14 +62,27 @@ export function CartDrawer() {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center">
-      <div className="brand-shell animate-rise flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-t-[2rem] sm:rounded-[2rem]">
-        <div className="brand-ink flex shrink-0 items-center justify-between px-6 py-5 text-white">
-          <h2 className="font-display text-xl font-semibold">
-            {step === "cart" && "Tu carrito"}
-            {step === "checkout" && "Pago"}
-            {step === "confirmation" && "Pedido listo"}
-          </h2>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 sm:items-center">
+      <button
+        type="button"
+        aria-label="Cerrar"
+        className="absolute inset-0 cursor-default"
+        onClick={handleClose}
+      />
+      <div className="brand-shell animate-rise relative flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-t-[2rem] sm:rounded-[2rem]">
+        <div className="flex shrink-0 items-center justify-between bg-ink px-6 py-5 text-white">
+          <div>
+            <h2 className="font-display text-xl font-semibold">
+              {step === "cart" && "Tu carrito"}
+              {step === "checkout" && "Pago"}
+              {step === "confirmation" && "Pedido listo"}
+            </h2>
+            {step === "cart" && items.length > 0 && (
+              <p className="mt-0.5 text-xs font-semibold text-white/55">
+                {items.reduce((s, i) => s + i.quantity, 0)} productos
+              </p>
+            )}
+          </div>
           <button
             type="button"
             onClick={handleClose}

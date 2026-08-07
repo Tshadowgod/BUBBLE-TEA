@@ -14,9 +14,9 @@ export function NewDrinkCard({
     <button
       type="button"
       onClick={() => onSelect(drink)}
-      className="brand-card group flex w-[11.5rem] shrink-0 flex-col overflow-hidden rounded-[1.25rem] text-left transition hover:-translate-y-0.5 active:scale-[0.98]"
+      className="group flex w-[11.75rem] shrink-0 flex-col overflow-hidden rounded-[1.35rem] bg-white text-left shadow-[0_8px_28px_rgba(26,18,12,0.16)] transition hover:-translate-y-1 active:scale-[0.98]"
     >
-      <div className="relative flex h-40 shrink-0 items-center justify-center overflow-hidden bg-neutral-100">
+      <div className="relative flex h-40 shrink-0 items-center justify-center overflow-hidden bg-[#f4efe8]">
         <DrinkArt
           colorway={drink.colorway}
           imageUrl={drink.imageUrl}
@@ -25,17 +25,17 @@ export function NewDrinkCard({
           rounded="xl"
           className="!h-full !w-full !rounded-none transition duration-300 group-hover:scale-105"
         />
-        <span className="brand-accent absolute left-2.5 top-2.5 rounded-full px-2 py-0.5 font-display text-[10px] font-semibold uppercase tracking-wide text-white">
+        <span className="absolute left-2.5 top-2.5 rounded-full bg-ink px-2 py-0.5 font-display text-[10px] font-semibold uppercase tracking-wide text-white">
           Nuevo
         </span>
-        <span className="brand-ink absolute bottom-2.5 right-2.5 rounded-full px-2.5 py-1 font-display text-sm font-semibold text-white">
+        <span className="absolute bottom-2.5 right-2.5 rounded-full bg-white px-2.5 py-1 font-display text-sm font-bold text-ink shadow-sm">
           Bs {dollars}
           <sup className="text-[10px]">{cents}</sup>
         </span>
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3.5">
         {drink.tag && (
-          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-500">
+          <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-400">
             {drink.tag}
           </span>
         )}
@@ -43,7 +43,7 @@ export function NewDrinkCard({
           <span className="font-display text-[15px] font-semibold leading-tight text-ink">
             {drink.name}
           </span>
-          <span className="brand-accent flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white">
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent-500 text-white transition group-hover:bg-accent-600">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M12 5v14M5 12h14"
