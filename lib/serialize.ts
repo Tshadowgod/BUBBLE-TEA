@@ -47,7 +47,7 @@ export function serializeTopping(topping: {
 export function serializeOrder(order: {
   id: string;
   customerName: string;
-  customerPhone: string;
+  customerPhone: string | null;
   notes: string | null;
   status: string;
   subtotal: DecimalLike;

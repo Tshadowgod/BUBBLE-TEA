@@ -56,7 +56,7 @@ model Topping {
 model Order {
   id            String      @id @default(cuid())
   customerName  String
-  customerPhone String
+  customerPhone String? // optional: some customers just give a name
   notes         String?
   status        OrderStatus @default(PENDING)
   subtotal      Decimal     @db.Decimal(10, 2)

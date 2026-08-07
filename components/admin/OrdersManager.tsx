@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { formatMoney } from "@/lib/format";
 import type { OrderStatus, PlainOrder } from "@/lib/types";
@@ -18,6 +18,19 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
   const router = useRouter();
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [refreshing, startRefresh] = useTransition();
+  const [checkedAt, setCheckedAt] = useState<string | null>(null);
+
+  // Rendered on the client only: a server-rendered timestamp would not match
+  // the browser's locale and would trip hydration.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCheckedAt(new Date().toLocaleTimeString());
+  }, [orders]);
+
+  function handleRefresh() {
+    startRefresh(() => router.refresh());
+  }
 
   async function handleStatusChange(id: string, status: OrderStatus) {
     setUpdatingId(id);
@@ -35,7 +48,39 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-extrabold text-neutral-800">Pedidos</h1>
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-extrabold text-neutral-800">Pedidos</h1>
+          <p className="mt-1 text-xs text-neutral-400">
+            {orders.length} {orders.length === 1 ? "pedido" : "pedidos"}
+            {checkedAt && ` · actualizado ${checkedAt}`}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleRefresh}
+          disabled={refreshing}
+          className="flex items-center gap-2 rounded-full bg-accent-500 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-accent-600 disabled:opacity-60"
+        >
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+            className={refreshing ? "animate-spin" : undefined}
+          >
+            <path
+              d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {refreshing ? "Actualizando…" : "Actualizar"}
+        </button>
+      </div>
 
       <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
         <table className="w-full text-left text-sm">
@@ -64,7 +109,9 @@ export function OrdersManager({ orders }: { orders: PlainOrder[] }) {
                     <p className="font-semibold text-neutral-800">
                       {order.customerName}
                     </p>
-                    <p className="text-xs text-neutral-400">{order.customerPhone}</p>
+                    <p className="text-xs text-neutral-400">
+                      {order.customerPhone ?? "Sin teléfono"}
+                    </p>
                   </td>
                   <td className="px-5 py-3 text-neutral-500">
                     {new Date(order.createdAt).toLocaleString()}

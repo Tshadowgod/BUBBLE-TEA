@@ -37,7 +37,7 @@ export function CartDrawer() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customerName: name,
-          customerPhone: phone,
+          customerPhone: phone || undefined,
           notes: notes || undefined,
           items: items.map((i) => ({
             drinkId: i.drinkId,
@@ -232,9 +232,11 @@ export function CartDrawer() {
               </label>
 
               <label className="mb-3 block text-sm">
-                <span className="mb-1 block font-bold text-ink">Teléfono</span>
+                <span className="mb-1 block font-bold text-ink">
+                  Teléfono{" "}
+                  <span className="font-semibold text-neutral-400">(opcional)</span>
+                </span>
                 <input
-                  required
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}

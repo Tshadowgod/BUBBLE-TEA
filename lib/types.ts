@@ -55,7 +55,7 @@ export type CartLine = {
 export type PlainOrder = {
   id: string;
   customerName: string;
-  customerPhone: string;
+  customerPhone: string | null;
   notes: string | null;
   status: OrderStatus;
   subtotal: number;
