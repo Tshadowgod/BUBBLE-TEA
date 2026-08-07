@@ -67,9 +67,16 @@ export function DrinkCustomizer({
   }
 
   return (
-    <div className="brand-shell fixed inset-0 z-50 mx-auto flex w-full max-w-md flex-col overflow-hidden sm:my-6 sm:h-[calc(100vh-3rem)] sm:rounded-[2rem]">
+    <div className="fixed inset-0 z-50 flex items-stretch justify-center lg:items-center lg:bg-black/45 lg:p-6">
+      <button
+        type="button"
+        aria-label="Cerrar"
+        className="absolute inset-0 hidden cursor-default lg:block"
+        onClick={onClose}
+      />
+      <div className="brand-shell relative flex h-full w-full max-w-md flex-col overflow-hidden lg:h-[min(90vh,52rem)] lg:max-w-3xl lg:rounded-[2rem] lg:shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
       {/* Top bar */}
-      <div className="brand-hero relative z-20 flex shrink-0 items-center justify-between bg-[#ff7800] px-4 pb-3 pt-4">
+      <div className="brand-hero relative z-20 flex shrink-0 items-center justify-between bg-[#ff7800] px-4 pb-3 pt-4 lg:px-6 lg:pt-5">
         <button
           type="button"
           onClick={onClose}
@@ -119,10 +126,10 @@ export function DrinkCustomizer({
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto bg-milk">
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto bg-milk lg:flex-row lg:overflow-hidden">
         {/* Product hero */}
-        <div className="brand-hero relative bg-[#ff7800] px-5 pb-10 pt-2">
-          <div className="flex items-center gap-4">
+        <div className="brand-hero relative shrink-0 bg-[#ff7800] px-5 pb-10 pt-2 lg:flex lg:w-[42%] lg:flex-col lg:justify-center lg:px-7 lg:pb-8 lg:pt-6">
+          <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-5">
             <div className="relative shrink-0">
               <DrinkArt
                 colorway={drink.colorway}
@@ -131,7 +138,7 @@ export function DrinkCustomizer({
                 size="lg"
                 rounded="full"
                 backdrop
-                className="!h-[7.25rem] !w-[7.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.22)]"
+                className="!h-[7.25rem] !w-[7.25rem] shadow-[0_12px_28px_rgba(0,0,0,0.22)] lg:!h-44 lg:!w-44"
               />
               {drink.isNew && (
                 <span className="absolute -left-1 -top-1 rounded-full bg-ink px-2 py-0.5 font-display text-[10px] font-bold uppercase tracking-wide text-white">
@@ -145,7 +152,7 @@ export function DrinkCustomizer({
                   {drink.tag}
                 </p>
               )}
-              <h2 className="mt-0.5 font-display text-[1.35rem] font-semibold leading-snug">
+              <h2 className="mt-0.5 font-display text-[1.35rem] font-semibold leading-snug lg:text-2xl">
                 {drink.name}
               </h2>
               <p className="mt-1 font-display text-[1.75rem] font-bold leading-none">
@@ -157,7 +164,7 @@ export function DrinkCustomizer({
         </div>
 
         {/* Controls card overlapping hero */}
-        <div className="relative z-10 -mt-6 space-y-5 px-4 pb-6">
+        <div className="relative z-10 -mt-6 space-y-5 px-4 pb-6 lg:mt-0 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-6 lg:pb-6 lg:pt-6">
           <div className="rounded-[1.35rem] bg-white p-4 shadow-[0_10px_30px_rgba(120,70,20,0.12)] ring-1 ring-black/[0.04]">
             <div className="flex items-center justify-between">
               <div>
@@ -369,6 +376,7 @@ export function DrinkCustomizer({
             {formatMoney(subtotal)}
           </span>
         </button>
+      </div>
       </div>
     </div>
   );

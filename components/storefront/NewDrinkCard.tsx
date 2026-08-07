@@ -14,9 +14,9 @@ export function NewDrinkCard({
     <button
       type="button"
       onClick={() => onSelect(drink)}
-      className="group flex w-[11.75rem] shrink-0 flex-col overflow-hidden rounded-[1.35rem] bg-white text-left shadow-[0_8px_28px_rgba(26,18,12,0.16)] transition hover:-translate-y-1 active:scale-[0.98]"
+      className="group flex w-[11.75rem] shrink-0 flex-col overflow-hidden rounded-[1.35rem] bg-white text-left shadow-[0_8px_28px_rgba(26,18,12,0.16)] transition hover:-translate-y-1 active:scale-[0.98] lg:w-full"
     >
-      <div className="relative flex h-40 shrink-0 items-center justify-center overflow-hidden bg-[#f4efe8]">
+      <div className="relative flex h-40 shrink-0 items-center justify-center overflow-hidden bg-[#f4efe8] lg:h-48">
         <DrinkArt
           colorway={drink.colorway}
           imageUrl={drink.imageUrl}

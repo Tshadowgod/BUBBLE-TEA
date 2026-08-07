@@ -13,7 +13,7 @@ export function DrinkListRow({
     <button
       type="button"
       onClick={() => onSelect(drink)}
-      className="group flex w-full items-center gap-3.5 rounded-[1.2rem] bg-white px-3 py-3 text-left shadow-[0_4px_16px_rgba(120,70,20,0.07)] ring-1 ring-black/[0.04] transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(120,70,20,0.12)] active:scale-[0.99]"
+      className="group flex h-full w-full items-center gap-3.5 rounded-[1.2rem] bg-white px-3 py-3 text-left shadow-[0_4px_16px_rgba(120,70,20,0.07)] ring-1 ring-black/[0.04] transition hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(120,70,20,0.12)] active:scale-[0.99] lg:px-4 lg:py-3.5"
     >
       <div className="relative shrink-0 overflow-hidden rounded-2xl bg-[#f4efe8]">
         <DrinkArt
@@ -21,7 +21,7 @@ export function DrinkListRow({
           imageUrl={drink.imageUrl}
           alt={drink.name}
           size="sm"
-          className="!h-[4.35rem] !w-[4.35rem] !rounded-2xl transition duration-300 group-hover:scale-105"
+          className="!h-[4.35rem] !w-[4.35rem] !rounded-2xl transition duration-300 group-hover:scale-105 lg:!h-[4.75rem] lg:!w-[4.75rem]"
         />
         {drink.isNew && (
           <span className="absolute left-1 top-1 rounded-full bg-accent-500 px-1.5 py-0.5 text-[8px] font-bold uppercase text-white">

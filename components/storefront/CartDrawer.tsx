@@ -69,7 +69,7 @@ export function CartDrawer() {
         className="absolute inset-0 cursor-default"
         onClick={handleClose}
       />
-      <div className="brand-shell animate-rise relative flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-t-[2rem] sm:rounded-[2rem]">
+      <div className="brand-shell animate-rise relative flex max-h-[92vh] w-full max-w-md flex-col overflow-hidden rounded-t-[2rem] sm:rounded-[2rem] lg:max-w-lg">
         <div className="flex shrink-0 items-center justify-between bg-ink px-6 py-5 text-white">
           <div>
             <h2 className="font-display text-xl font-semibold">
