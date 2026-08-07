@@ -28,6 +28,13 @@ export async function POST(request: Request) {
   if (originalPrice !== null && !Number.isFinite(originalPrice)) {
     return NextResponse.json({ error: "Invalid original price." }, { status: 400 });
   }
+  const priceLarge =
+    body.priceLarge !== undefined && body.priceLarge !== null && body.priceLarge !== ""
+      ? Number(body.priceLarge)
+      : null;
+  if (priceLarge !== null && !Number.isFinite(priceLarge)) {
+    return NextResponse.json({ error: "Invalid 700ml price." }, { status: 400 });
+  }
 
   const drink = await prisma.drink.create({
     data: {
@@ -39,6 +46,7 @@ export async function POST(request: Request) {
           ? body.description.trim()
           : null,
       price,
+      priceLarge,
       originalPrice,
       colorway:
         typeof body.colorway === "string" && body.colorway.trim()

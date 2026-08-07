@@ -25,16 +25,21 @@ export function DrinkCustomizer({
     new Set()
   );
   const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState<"500ML" | "700ML">("500ML");
 
   const selectedToppings = useMemo(
     () => toppings.filter((t) => selectedToppingIds.has(t.id)),
     [toppings, selectedToppingIds]
   );
 
+  const hasSizes = drink.priceLarge !== null;
+  const unitPrice =
+    size === "700ML" && drink.priceLarge !== null ? drink.priceLarge : drink.price;
+
   const toppingsTotal = selectedToppings.reduce((sum, t) => sum + t.price, 0);
-  const unitTotal = drink.price + toppingsTotal;
+  const unitTotal = unitPrice + toppingsTotal;
   const subtotal = unitTotal * quantity;
-  const [dollars, cents] = drink.price.toFixed(2).split(".");
+  const [dollars, cents] = unitPrice.toFixed(2).split(".");
   const sugarIndex = SUGAR_LEVELS.indexOf(sugarLevel);
 
   function toggleTopping(id: string) {
@@ -53,7 +58,8 @@ export function DrinkCustomizer({
       tag: drink.tag,
       colorway: drink.colorway,
       imageUrl: drink.imageUrl,
-      unitPrice: drink.price,
+      size,
+      unitPrice,
       quantity,
       sugarLevel,
       toppings: selectedToppings.map((t) => ({
@@ -198,6 +204,46 @@ export function DrinkCustomizer({
               </div>
             </div>
           </div>
+
+          {hasSizes && (
+            <section className="rounded-[1.35rem] bg-white p-4 shadow-[0_8px_24px_rgba(120,70,20,0.08)] ring-1 ring-black/[0.04]">
+              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-500">
+                Tamaño
+              </p>
+              <div className="grid grid-cols-2 gap-2.5">
+                {(
+                  [
+                    { key: "500ML" as const, label: "500 ml", price: drink.price },
+                    { key: "700ML" as const, label: "700 ml", price: drink.priceLarge! },
+                  ]
+                ).map((opt) => {
+                  const selected = size === opt.key;
+                  return (
+                    <button
+                      type="button"
+                      key={opt.key}
+                      onClick={() => setSize(opt.key)}
+                      aria-pressed={selected}
+                      className={`rounded-2xl p-3 text-left transition active:scale-[0.98] ${
+                        selected
+                          ? "bg-ink text-white shadow-md"
+                          : "bg-[#f7efe4] text-ink hover:bg-[#f0e4d4]"
+                      }`}
+                    >
+                      <p className="text-sm font-bold">{opt.label}</p>
+                      <p
+                        className={`mt-0.5 text-xs font-bold ${
+                          selected ? "text-accent-500" : "text-accent-600"
+                        }`}
+                      >
+                        {formatMoney(opt.price)}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
           <section className="rounded-[1.35rem] bg-white p-4 shadow-[0_8px_24px_rgba(120,70,20,0.08)] ring-1 ring-black/[0.04]">
             <div className="mb-4 flex items-end justify-between">
@@ -360,6 +406,7 @@ export function DrinkCustomizer({
           </div>
           <p className="max-w-[10rem] text-right text-xs font-semibold text-neutral-500">
             {quantity}x {drink.name}
+            {hasSizes && ` · ${size === "700ML" ? "700" : "500"}ml`}
             {selectedToppings.length > 0 &&
               ` · ${selectedToppings.length} topping${selectedToppings.length > 1 ? "s" : ""}`}
             {" · "}

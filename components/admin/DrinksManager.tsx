@@ -28,6 +28,7 @@ type FormState = {
   tag: string;
   description: string;
   price: string;
+  priceLarge: string;
   originalPrice: string;
   colorway: string;
   imageUrl: string;
@@ -43,6 +44,7 @@ const EMPTY_FORM: FormState = {
   tag: "",
   description: "",
   price: "",
+  priceLarge: "",
   originalPrice: "",
   colorway: "honey",
   imageUrl: "",
@@ -65,6 +67,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
       tag: drink.tag ?? "",
       description: drink.description ?? "",
       price: String(drink.price),
+      priceLarge: drink.priceLarge !== null ? String(drink.priceLarge) : "",
       originalPrice: drink.originalPrice !== null ? String(drink.originalPrice) : "",
       colorway: drink.colorway,
       imageUrl: drink.imageUrl ?? "",
@@ -87,6 +90,7 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
       tag: form.tag || null,
       description: form.description || null,
       price: form.price,
+      priceLarge: form.priceLarge || null,
       originalPrice: form.originalPrice || null,
       colorway: form.colorway,
       imageUrl: form.imageUrl || null,
@@ -190,6 +194,20 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
             min="0"
             value={form.price}
             onChange={(e) => setForm({ ...form, price: e.target.value })}
+            className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
+          />
+        </label>
+
+        <label className="text-sm">
+          <span className="mb-1 block font-semibold text-neutral-700">
+            700ml price (optional — leave blank for single-size drinks)
+          </span>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            value={form.priceLarge}
+            onChange={(e) => setForm({ ...form, priceLarge: e.target.value })}
             className="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm outline-none focus:border-brand-500"
           />
         </label>
@@ -318,6 +336,9 @@ export function DrinksManager({ drinks }: { drinks: PlainDrink[] }) {
                 <td className="px-5 py-3 text-neutral-500">{drink.category}</td>
                 <td className="px-5 py-3 font-semibold text-brand-600">
                   {formatMoney(drink.price)}
+                  {drink.priceLarge !== null && (
+                    <span className="text-neutral-400"> / {formatMoney(drink.priceLarge)}</span>
+                  )}
                 </td>
                 <td className="px-5 py-3">
                   <span

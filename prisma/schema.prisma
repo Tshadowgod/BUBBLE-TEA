@@ -21,7 +21,8 @@ model Drink {
   category      String // e.g. "Bubble Tea", "Milk Tea", "Latte"
   tag           String? // e.g. "CHEWY TEA", "FLAVOURED TEA"
   description   String?
-  price         Decimal  @db.Decimal(10, 2)
+  price         Decimal  @db.Decimal(10, 2) // 500ml price
+  priceLarge    Decimal? @db.Decimal(10, 2) // 700ml price; null when only one size is offered
   originalPrice Decimal? @db.Decimal(10, 2) // set to show a strikethrough discount price
   colorway      String   @default("honey") // key used to render the placeholder art when no imageUrl is set
   imageUrl      String?
@@ -75,6 +76,7 @@ model OrderItem {
   drinkId    String?
   drink      Drink?   @relation(fields: [drinkId], references: [id], onDelete: SetNull)
   drinkName  String // snapshot, survives drink edits/deletes
+  size       String   @default("500ML") // "500ML" or "700ML"
   unitPrice  Decimal  @db.Decimal(10, 2)
   quantity   Int      @default(1)
   sugarLevel Int      @default(50) // 0, 25, 50, 75, 100

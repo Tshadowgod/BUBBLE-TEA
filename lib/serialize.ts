@@ -16,6 +16,7 @@ export function serializeDrink(drink: {
   tag: string | null;
   description: string | null;
   price: DecimalLike;
+  priceLarge: DecimalLike | null;
   originalPrice: DecimalLike | null;
   colorway: string;
   imageUrl: string | null;
@@ -26,6 +27,7 @@ export function serializeDrink(drink: {
   return {
     ...drink,
     price: toNum(drink.price),
+    priceLarge: drink.priceLarge ? toNum(drink.priceLarge) : null,
     originalPrice: drink.originalPrice ? toNum(drink.originalPrice) : null,
   };
 }
@@ -54,6 +56,7 @@ export function serializeOrder(order: {
   items: {
     id: string;
     drinkName: string;
+    size: string;
     unitPrice: DecimalLike;
     quantity: number;
     sugarLevel: number;
@@ -73,6 +76,7 @@ export function serializeOrder(order: {
     items: order.items.map((item) => ({
       id: item.id,
       drinkName: item.drinkName,
+      size: item.size,
       unitPrice: toNum(item.unitPrice),
       quantity: item.quantity,
       sugarLevel: item.sugarLevel,

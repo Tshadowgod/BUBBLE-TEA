@@ -3,9 +3,11 @@ import { prisma } from "@/lib/prisma";
 import { serializeOrder } from "@/lib/serialize";
 
 const VALID_SUGAR_LEVELS = new Set([0, 25, 50, 75, 100]);
+const VALID_SIZES = new Set(["500ML", "700ML"]);
 
 type IncomingItem = {
   drinkId: string;
+  size: string;
   quantity: number;
   sugarLevel: number;
   toppingIds: string[];
@@ -40,6 +42,9 @@ export async function POST(request: Request) {
   for (const item of incomingItems) {
     if (typeof item.drinkId !== "string") {
       return NextResponse.json({ error: "Invalid item in cart." }, { status: 400 });
+    }
+    if (!VALID_SIZES.has(item.size)) {
+      return NextResponse.json({ error: "Invalid size." }, { status: 400 });
     }
     if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 20) {
       return NextResponse.json({ error: "Invalid quantity." }, { status: 400 });
@@ -87,7 +92,10 @@ export async function POST(request: Request) {
   let subtotal = 0;
   const itemsToCreate = incomingItems.map((item) => {
     const drink = drinkMap.get(item.drinkId)!;
-    const drinkPrice = Number(drink.price);
+    const drinkPrice =
+      item.size === "700ML" && drink.priceLarge !== null
+        ? Number(drink.priceLarge)
+        : Number(drink.price);
     const toppingSelections = item.toppingIds.map((id) => {
       const topping = toppingMap.get(id)!;
       return { toppingId: id, name: topping.name, price: Number(topping.price) };
@@ -98,7 +106,8 @@ export async function POST(request: Request) {
 
     return {
       drinkId: drink.id,
-      drinkName: drink.name,
+      drinkName: `${drink.name} (${item.size === "700ML" ? "700ml" : "500ml"})`,
+      size: item.size,
       unitPrice: drinkPrice,
       quantity: item.quantity,
       sugarLevel: item.sugarLevel,

@@ -45,6 +45,11 @@ export function DrinkListRow({
             </span>
           )}
           <span className="font-display text-sm font-bold text-accent-500">
+            {drink.priceLarge !== null && (
+              <span className="mr-1 text-[10px] font-bold uppercase tracking-wide text-neutral-400">
+                Desde
+              </span>
+            )}
             {formatMoney(drink.price)}
           </span>
         </div>

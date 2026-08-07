@@ -28,7 +28,12 @@ export function NewDrinkCard({
         <span className="absolute left-2.5 top-2.5 rounded-full bg-ink px-2 py-0.5 font-display text-[10px] font-semibold uppercase tracking-wide text-white">
           Nuevo
         </span>
-        <span className="absolute bottom-2.5 right-2.5 rounded-full bg-white px-2.5 py-1 font-display text-sm font-bold text-ink shadow-sm">
+        <span className="absolute bottom-2.5 right-2.5 flex items-center gap-1 rounded-full bg-white px-2.5 py-1 font-display text-sm font-bold text-ink shadow-sm">
+          {drink.priceLarge !== null && (
+            <span className="text-[9px] font-bold uppercase tracking-wide text-neutral-400">
+              Desde
+            </span>
+          )}
           Bs {dollars}
           <sup className="text-[10px]">{cents}</sup>
         </span>

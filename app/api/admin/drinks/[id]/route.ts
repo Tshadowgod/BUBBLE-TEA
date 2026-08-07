@@ -34,6 +34,10 @@ export async function PATCH(
         ? null
         : Number(body.originalPrice);
   }
+  if (body.priceLarge !== undefined) {
+    data.priceLarge =
+      body.priceLarge === null || body.priceLarge === "" ? null : Number(body.priceLarge);
+  }
   if (typeof body.colorway === "string") data.colorway = body.colorway.trim();
   if (typeof body.imageUrl === "string" || body.imageUrl === null) {
     data.imageUrl = body.imageUrl?.trim() || null;

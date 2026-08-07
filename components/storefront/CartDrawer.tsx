@@ -41,6 +41,7 @@ export function CartDrawer() {
           notes: notes || undefined,
           items: items.map((i) => ({
             drinkId: i.drinkId,
+            size: i.size,
             quantity: i.quantity,
             sugarLevel: i.sugarLevel,
             toppingIds: i.toppings.map((t) => t.toppingId),
@@ -135,7 +136,8 @@ export function CartDrawer() {
                           {item.name}
                         </p>
                         <p className="text-xs text-neutral-500">
-                          Azúcar {item.sugarLevel}%
+                          {item.size === "700ML" ? "700ml" : "500ml"} · Azúcar{" "}
+                          {item.sugarLevel}%
                           {item.toppings.length > 0 &&
                             ` · ${item.toppings.map((t) => t.name).join(", ")}`}
                         </p>

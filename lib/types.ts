@@ -5,6 +5,7 @@ export type PlainDrink = {
   tag: string | null;
   description: string | null;
   price: number;
+  priceLarge: number | null;
   originalPrice: number | null;
   colorway: string;
   imageUrl: string | null;
@@ -43,6 +44,7 @@ export type CartLine = {
   tag: string | null;
   colorway: string;
   imageUrl: string | null;
+  size: "500ML" | "700ML";
   unitPrice: number;
   quantity: number;
   sugarLevel: number;
@@ -62,6 +64,7 @@ export type PlainOrder = {
   items: {
     id: string;
     drinkName: string;
+    size: string;
     unitPrice: number;
     quantity: number;
     sugarLevel: number;
