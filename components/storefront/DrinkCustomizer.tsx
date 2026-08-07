@@ -171,6 +171,59 @@ export function DrinkCustomizer({
 
         {/* Controls card overlapping hero */}
         <div className="relative z-10 -mt-6 space-y-5 px-4 pb-6 lg:mt-0 lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:px-6 lg:pb-6 lg:pt-6">
+          {/* Size comes first: it is the choice that moves the price. */}
+          <section className="rounded-[1.35rem] bg-white p-4 shadow-[0_10px_30px_rgba(120,70,20,0.12)] ring-1 ring-black/[0.04]">
+            <div className="mb-3 flex items-end justify-between">
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-500">
+                Tamaño del vaso
+              </p>
+              {!hasSizes && (
+                <span className="text-xs font-semibold text-neutral-400">
+                  Tamaño único
+                </span>
+              )}
+            </div>
+            {hasSizes ? (
+              <div className="grid grid-cols-2 gap-2.5">
+                {[
+                  { key: "500ML" as const, label: "500 ml", price: drink.price },
+                  { key: "700ML" as const, label: "700 ml", price: drink.priceLarge! },
+                ].map((opt) => {
+                  const selected = size === opt.key;
+                  return (
+                    <button
+                      type="button"
+                      key={opt.key}
+                      onClick={() => setSize(opt.key)}
+                      aria-pressed={selected}
+                      className={`rounded-2xl p-3 text-left transition active:scale-[0.98] ${
+                        selected
+                          ? "bg-ink text-white shadow-md ring-2 ring-accent-500"
+                          : "bg-[#f7efe4] text-ink hover:bg-[#f0e4d4]"
+                      }`}
+                    >
+                      <p className="font-display text-base font-bold">{opt.label}</p>
+                      <p
+                        className={`mt-0.5 text-sm font-bold ${
+                          selected ? "text-accent-500" : "text-accent-600"
+                        }`}
+                      >
+                        {formatMoney(opt.price)}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="flex items-center justify-between rounded-2xl bg-[#f7efe4] p-3">
+                <p className="font-display text-base font-bold text-ink">500 ml</p>
+                <p className="text-sm font-bold text-accent-600">
+                  {formatMoney(drink.price)}
+                </p>
+              </div>
+            )}
+          </section>
+
           <div className="rounded-[1.35rem] bg-white p-4 shadow-[0_10px_30px_rgba(120,70,20,0.12)] ring-1 ring-black/[0.04]">
             <div className="flex items-center justify-between">
               <div>
@@ -204,46 +257,6 @@ export function DrinkCustomizer({
               </div>
             </div>
           </div>
-
-          {hasSizes && (
-            <section className="rounded-[1.35rem] bg-white p-4 shadow-[0_8px_24px_rgba(120,70,20,0.08)] ring-1 ring-black/[0.04]">
-              <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.12em] text-neutral-500">
-                Tamaño
-              </p>
-              <div className="grid grid-cols-2 gap-2.5">
-                {(
-                  [
-                    { key: "500ML" as const, label: "500 ml", price: drink.price },
-                    { key: "700ML" as const, label: "700 ml", price: drink.priceLarge! },
-                  ]
-                ).map((opt) => {
-                  const selected = size === opt.key;
-                  return (
-                    <button
-                      type="button"
-                      key={opt.key}
-                      onClick={() => setSize(opt.key)}
-                      aria-pressed={selected}
-                      className={`rounded-2xl p-3 text-left transition active:scale-[0.98] ${
-                        selected
-                          ? "bg-ink text-white shadow-md"
-                          : "bg-[#f7efe4] text-ink hover:bg-[#f0e4d4]"
-                      }`}
-                    >
-                      <p className="text-sm font-bold">{opt.label}</p>
-                      <p
-                        className={`mt-0.5 text-xs font-bold ${
-                          selected ? "text-accent-500" : "text-accent-600"
-                        }`}
-                      >
-                        {formatMoney(opt.price)}
-                      </p>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-          )}
 
           <section className="rounded-[1.35rem] bg-white p-4 shadow-[0_8px_24px_rgba(120,70,20,0.08)] ring-1 ring-black/[0.04]">
             <div className="mb-4 flex items-end justify-between">
