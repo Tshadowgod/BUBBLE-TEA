@@ -23,9 +23,26 @@ export function AdminNav() {
   return (
     <nav className="flex h-full flex-col justify-between border-r border-neutral-200 bg-white p-4">
       <div>
-        <p className="mb-6 px-2 font-display text-lg font-semibold text-ink">
-          Mundo Bubble Tea Admin
-        </p>
+        <Link
+          href="/"
+          className="mb-6 flex flex-col items-center rounded-2xl bg-accent-500 px-3 py-4 transition hover:opacity-95"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo-mascot.png"
+            alt=""
+            className="h-14 w-auto object-contain drop-shadow-[0_6px_14px_rgba(0,0,0,0.2)]"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/wordmark.png"
+            alt="Mundo Bubble Tea"
+            className="mt-1.5 h-8 w-auto max-w-full object-contain"
+          />
+          <span className="mt-1.5 rounded-full bg-white px-2.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.14em] text-ink">
+            Admin
+          </span>
+        </Link>
         <ul className="space-y-1">
           {LINKS.map((link) => {
             const active =
